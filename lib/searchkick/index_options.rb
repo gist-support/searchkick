@@ -72,13 +72,7 @@ module Searchkick
             searchkick_search2: {
               type: "custom",
               char_filter: ["ampersand"],
-              tokenizer: {
-                token_chars: ["letter", "digit", "punctuation", "symbol"],
-                custom_token_chars: ["="],
-                min_gram: "2",
-                type: "edge_ngram",
-                max_gram: "20"
-              },
+              tokenizer: "standard",
               filter: ["lowercase", "asciifolding", "searchkick_stemmer"]
             },
             # https://github.com/leschenko/elasticsearch_autocomplete/blob/master/lib/elasticsearch_autocomplete/analyzers.rb
