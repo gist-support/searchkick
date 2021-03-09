@@ -37,30 +37,30 @@ module Searchkick
         analysis: {
           analyzer: {
             searchkick_keyword: {
-              type: "custom",
-              tokenizer: "keyword",
+              type: "edge_ngram",
+              tokenizer: "whitespace",
               filter: ["lowercase"] + (options[:stem_conversions] ? ["searchkick_stemmer"] : [])
             },
             default_analyzer => {
-              type: "custom",
+              type: "edge_ngram",
               # character filters -> tokenizer -> token filters
               # https://www.elastic.co/guide/en/elasticsearch/guide/current/analysis-intro.html
               char_filter: ["ampersand"],
-              tokenizer: "standard",
+              tokenizer: "whitespace",
               # synonym should come last, after stemming and shingle
               # shingle must come before searchkick_stemmer
               filter: ["lowercase", "asciifolding", "searchkick_index_shingle", "searchkick_stemmer"]
             },
             searchkick_search: {
-              type: "custom",
+              type: "edge_ngram",
               char_filter: ["ampersand"],
-              tokenizer: "standard",
+              tokenizer: "whitespace",
               filter: ["lowercase", "asciifolding", "searchkick_search_shingle", "searchkick_stemmer"]
             },
             searchkick_search2: {
-              type: "custom",
+              type: "edge_ngram",
               char_filter: ["ampersand"],
-              tokenizer: "standard",
+              tokenizer: "whitespace",
               filter: ["lowercase", "asciifolding", "searchkick_stemmer"]
             },
             # https://github.com/leschenko/elasticsearch_autocomplete/blob/master/lib/elasticsearch_autocomplete/analyzers.rb
