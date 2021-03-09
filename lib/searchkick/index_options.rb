@@ -37,12 +37,12 @@ module Searchkick
         analysis: {
           analyzer: {
             searchkick_keyword: {
-              type: "edge_ngram",
+              type: "custom",
               tokenizer: "whitespace",
               filter: ["lowercase"] + (options[:stem_conversions] ? ["searchkick_stemmer"] : [])
             },
             default_analyzer => {
-              type: "edge_ngram",
+              type: "custom",
               # character filters -> tokenizer -> token filters
               # https://www.elastic.co/guide/en/elasticsearch/guide/current/analysis-intro.html
               char_filter: ["ampersand"],
@@ -52,13 +52,13 @@ module Searchkick
               filter: ["lowercase", "asciifolding", "searchkick_index_shingle", "searchkick_stemmer"]
             },
             searchkick_search: {
-              type: "edge_ngram",
+              type: "custom",
               char_filter: ["ampersand"],
               tokenizer: "whitespace",
               filter: ["lowercase", "asciifolding", "searchkick_search_shingle", "searchkick_stemmer"]
             },
             searchkick_search2: {
-              type: "edge_ngram",
+              type: "custom",
               char_filter: ["ampersand"],
               tokenizer: "whitespace",
               filter: ["lowercase", "asciifolding", "searchkick_stemmer"]
