@@ -39,50 +39,29 @@ module Searchkick
             searchkick_keyword: {
               type: "custom",
               tokenizer: "whitespace",
-              filter: ["lowercase"] + (options[:stem_conversions] ? ["searchkick_stemmer"] : [])
+              filter: ["lowercase", "gist_token_fitlers"] + (options[:stem_conversions] ? ["searchkick_stemmer"] : [])
             },
             default_analyzer => {
               type: "custom",
               # character filters -> tokenizer -> token filters
               # https://www.elastic.co/guide/en/elasticsearch/guide/current/analysis-intro.html
               char_filter: ["ampersand"],
-              tokenizer: {
-                custom_tokenizer: {
-                  token_chars: ["letter", "digit", "punctuation", "symbol"],
-                  min_gram: "2",
-                  type: "edge_ngram",
-                  max_gram: "20"
-                  }
-                },
+              tokenizer: "whitespace",
               # synonym should come last, after stemming and shingle
               # shingle must come before searchkick_stemmer
-              filter: ["lowercase", "asciifolding", "searchkick_index_shingle", "searchkick_stemmer"]
+              filter: ["lowercase", "asciifolding", "searchkick_index_shingle", "searchkick_stemmer", "gist_token_fitlers"]
             },
             searchkick_search: {
               type: "custom",
               char_filter: ["ampersand"],
-              tokenizer: {
-                custom_tokenizer: {
-                  token_chars: ["letter", "digit", "punctuation", "symbol"],
-                  min_gram: "2",
-                  type: "edge_ngram",
-                  max_gram: "20"
-                  }
-                },
-              filter: ["lowercase", "asciifolding", "searchkick_search_shingle", "searchkick_stemmer"]
+              tokenizer: "whitespace",
+              filter: ["lowercase", "asciifolding", "searchkick_search_shingle", "searchkick_stemmer", "gist_token_fitlers"]
             },
             searchkick_search2: {
               type: "custom",
               char_filter: ["ampersand"],
-              tokenizer: {
-                custom_tokenizer: {
-                  token_chars: ["letter", "digit", "punctuation", "symbol"],
-                  min_gram: "2",
-                  type: "edge_ngram",
-                  max_gram: "20"
-                  }
-                },
-              filter: ["lowercase", "asciifolding", "searchkick_stemmer"]
+              tokenizer: "whitespace",
+              filter: ["lowercase", "asciifolding", "searchkick_stemmer", "gist_token_fitlers"]
             },
             # https://github.com/leschenko/elasticsearch_autocomplete/blob/master/lib/elasticsearch_autocomplete/analyzers.rb
             searchkick_autocomplete_search: {
@@ -161,6 +140,12 @@ module Searchkick
               # use stemmer if language is lowercase, snowball otherwise
               type: language == language.to_s.downcase ? "stemmer" : "snowball",
               language: language || "English"
+            },
+            gist_token_fitlers: {
+              token_chars: ["letter", "digit", "punctuation", "symbol"],
+              min_gram: "2",
+              type: "edge_ngram",
+              max_gram: "20"
             }
           },
           char_filter: {
