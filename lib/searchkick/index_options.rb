@@ -143,6 +143,7 @@ module Searchkick
             },
             gist_token_fitlers: {
               token_chars: ["letter", "digit", "punctuation", "symbol"],
+              custom_token_chars: ["="],
               min_gram: "2",
               type: "edge_ngram",
               max_gram: "20"
