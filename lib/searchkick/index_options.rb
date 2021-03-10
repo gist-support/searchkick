@@ -38,7 +38,7 @@ module Searchkick
           analyzer: {
             searchkick_keyword: {
               type: "custom",
-              tokenizer: "whitespace",
+              tokenizer: "keyword",
               filter: ["lowercase", "gist_token_fitlers"] + (options[:stem_conversions] ? ["searchkick_stemmer"] : [])
             },
             default_analyzer => {
