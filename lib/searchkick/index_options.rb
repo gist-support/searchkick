@@ -47,10 +47,12 @@ module Searchkick
               # https://www.elastic.co/guide/en/elasticsearch/guide/current/analysis-intro.html
               char_filter: ["ampersand"],
               tokenizer: {
-                token_chars: ["letter", "digit", "punctuation", "symbol"],
-                min_gram: "2",
-                type: "edge_ngram",
-                max_gram: "20"
+                custom_tokenizer: {
+                  token_chars: ["letter", "digit", "punctuation", "symbol"],
+                  min_gram: "2",
+                  type: "edge_ngram",
+                  max_gram: "20"
+                  }
                 },
               # synonym should come last, after stemming and shingle
               # shingle must come before searchkick_stemmer
@@ -60,10 +62,12 @@ module Searchkick
               type: "custom",
               char_filter: ["ampersand"],
               tokenizer: {
-                token_chars: ["letter", "digit", "punctuation", "symbol"],
-                min_gram: "2",
-                type: "edge_ngram",
-                max_gram: "20"
+                custom_tokenizer: {
+                  token_chars: ["letter", "digit", "punctuation", "symbol"],
+                  min_gram: "2",
+                  type: "edge_ngram",
+                  max_gram: "20"
+                  }
                 },
               filter: ["lowercase", "asciifolding", "searchkick_search_shingle", "searchkick_stemmer"]
             },
@@ -71,10 +75,12 @@ module Searchkick
               type: "custom",
               char_filter: ["ampersand"],
               tokenizer: {
-                token_chars: ["letter", "digit", "punctuation", "symbol"],
-                min_gram: "2",
-                type: "edge_ngram",
-                max_gram: "20"
+                custom_tokenizer: {
+                  token_chars: ["letter", "digit", "punctuation", "symbol"],
+                  min_gram: "2",
+                  type: "edge_ngram",
+                  max_gram: "20"
+                  }
                 },
               filter: ["lowercase", "asciifolding", "searchkick_stemmer"]
             },
