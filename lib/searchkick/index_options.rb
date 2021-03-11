@@ -46,10 +46,10 @@ module Searchkick
               # character filters -> tokenizer -> token filters
               # https://www.elastic.co/guide/en/elasticsearch/guide/current/analysis-intro.html
               char_filter: ["ampersand"],
-              tokenizer: "standard",
+              tokenizer: "whitespace",
               # synonym should come last, after stemming and shingle
               # shingle must come before searchkick_stemmer
-              filter: ["lowercase", "asciifolding", "searchkick_index_shingle", "searchkick_stemmer"]
+              filter: ["lowercase", "asciifolding", "searchkick_index_shingle", "searchkick_stemmer", "edgegram"]
             },
             searchkick_search: {
               type: "custom",
