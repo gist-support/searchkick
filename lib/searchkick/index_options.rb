@@ -350,7 +350,7 @@ module Searchkick
       mapping = {}
 
       keyword_mapping = {type: "keyword"}
-      keyword_mapping[:ignore_above] = options[:ignore_above] || 30000
+      keyword_mapping[:ignore_above] = 256
 
       # conversions
       Array(options[:conversions]).each do |conversions_field|
