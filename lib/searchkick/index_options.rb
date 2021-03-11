@@ -54,14 +54,14 @@ module Searchkick
             searchkick_search: {
               type: "custom",
               char_filter: ["ampersand"],
-              tokenizer: "standard",
-              filter: ["lowercase", "asciifolding", "searchkick_search_shingle", "searchkick_stemmer"]
+              tokenizer: "whitespace",
+              filter: ["lowercase", "asciifolding", "searchkick_search_shingle", "searchkick_stemmer", "edgegram"]
             },
             searchkick_search2: {
               type: "custom",
               char_filter: ["ampersand"],
-              tokenizer: "standard",
-              filter: ["lowercase", "asciifolding", "searchkick_stemmer"]
+              tokenizer: "whitespace",
+              filter: ["lowercase", "asciifolding", "searchkick_stemmer", "edgegram"]
             },
             # https://github.com/leschenko/elasticsearch_autocomplete/blob/master/lib/elasticsearch_autocomplete/analyzers.rb
             searchkick_autocomplete_search: {
@@ -140,7 +140,12 @@ module Searchkick
               # use stemmer if language is lowercase, snowball otherwise
               type: language == language.to_s.downcase ? "stemmer" : "snowball",
               language: language || "English"
-            }
+            },
+            edgegram: {
+              min_gram: "2",
+              type: "edge_ngram",
+              max_gram: "20"
+              }
           },
           char_filter: {
             # https://www.elastic.co/guide/en/elasticsearch/guide/current/custom-analyzers.html
