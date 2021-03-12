@@ -46,7 +46,7 @@ module Searchkick
               # character filters -> tokenizer -> token filters
               # https://www.elastic.co/guide/en/elasticsearch/guide/current/analysis-intro.html
               char_filter: ["ampersand"],
-              tokenizer: "keyword",
+              tokenizer: "standard",
               # synonym should come last, after stemming and shingle
               # shingle must come before searchkick_stemmer
               filter: ["lowercase", "asciifolding", "searchkick_index_shingle", "searchkick_stemmer"]
@@ -54,13 +54,13 @@ module Searchkick
             searchkick_search: {
               type: "custom",
               char_filter: ["ampersand"],
-              tokenizer: "keyword",
+              tokenizer: "standard",
               filter: ["lowercase", "asciifolding", "searchkick_search_shingle", "searchkick_stemmer"]
             },
             searchkick_search2: {
               type: "custom",
               char_filter: ["ampersand"],
-              tokenizer: "keyword",
+              tokenizer: "standard",
               filter: ["lowercase", "asciifolding", "searchkick_stemmer"]
             },
             # https://github.com/leschenko/elasticsearch_autocomplete/blob/master/lib/elasticsearch_autocomplete/analyzers.rb
@@ -140,12 +140,7 @@ module Searchkick
               # use stemmer if language is lowercase, snowball otherwise
               type: language == language.to_s.downcase ? "stemmer" : "snowball",
               language: language || "English"
-            },
-            edgegram: {
-              min_gram: "2",
-              type: "edge_ngram",
-              max_gram: "20"
-              }
+            }
           },
           char_filter: {
             # https://www.elastic.co/guide/en/elasticsearch/guide/current/custom-analyzers.html
